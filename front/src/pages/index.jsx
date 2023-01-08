@@ -3,6 +3,7 @@ import { Copyright, Eye } from "mdi-material-ui"
 import useDialog from "../hooks/useDialogs"
 import CancelButton from "../components/CancelButton"
 import ValidateButton from "../components/ValidateButton"
+import DialogContent from './DialogContent'
 
 const Home = () => {
 
@@ -34,9 +35,10 @@ const Home = () => {
                             onClose={dialog.handleOnClose}
                         >
                             <DialogTitle id='draggable-dialog-title'>
-                            Options
+                            Paramètres
                             </DialogTitle>
                              <Stack spacing={2} align='center' style={{ padding: '15px' }}>
+                                <DialogContent />
                                 {/* <Form 
                                 id={'add-form'} 
                                 country={country} 
