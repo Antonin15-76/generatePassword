@@ -1,17 +1,36 @@
-import { Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup, Stack, Switch } from "@mui/material"
+import { Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Radio, RadioGroup, Slider, Stack, Switch } from "@mui/material"
 import { useState } from "react"
 
 
 
 const DialogContent = () => {
 
-    const [min, setMin] = useState(true)
-    const [maj, setMaj] = useState(true)
+    const nbOfCharData = [
+        {
+            id: "8",
+            value: "8"
+        },
+        {
+            id: "10",
+            value: "10"
+        },
+        {
+            id: "12",
+            value: "12"
+        },
+        {
+            id: "autres",
+            value: "autres"
+        },
+    ]
+
+    const [hardSpeciaux, setHardSpeciaux] = useState(false)
+    const [maj, setMaj] = useState(false)
     const [num, setNum] = useState(false)
     const [speciaux, setSpeciaux] = useState(false)
 
-    const handleOnChangeMin = (e) => {
-        setMin(e.target.checked)
+    const handleOnChangeHardSpeciaux = (e) => {
+        setHardSpeciaux(e.target.checked)
     }
 
     const handleOnChangeMaj = (e) => {
@@ -25,8 +44,15 @@ const DialogContent = () => {
         setSpeciaux(e.target.checked)
     }
 
+    const [nbOfChar, setNbOfChar] = useState("8")
+
+    const handleOnChangeSetNbOfChar = (e) => {
+        setNbOfChar(e.target.value)
+    }
+
+
     return (
-        <Stack spacing={4}>
+        <Stack spacing={4} style={{ padding: "20px", width: "500px"}}>
             <FormControl>
                 <FormLabel id="demo-radio-buttons-group-label">Nombre de caractères</FormLabel>
                 <RadioGroup
@@ -35,30 +61,32 @@ const DialogContent = () => {
                     name="radio-buttons-group"
                 >
                     <Stack direction="row" spacing={6}>
-                        <FormControlLabel value="8" control={<Radio />} label="8" />
-                        <FormControlLabel value="10" control={<Radio />} label="10" />
-                        <FormControlLabel value="12" control={<Radio />} label="12" />
-                        <FormControlLabel value="autres" control={<Radio />} label="autres" />
+                        {nbOfCharData.map(x => {
+                            return (
+                                <FormControlLabel onChange={handleOnChangeSetNbOfChar} checked={x.value === nbOfChar} value={x.value} control={<Radio />} label={x.value} />
+                            )
+                        })}
+                        <Slider defaultValue={8} step={2} aria-label="Default" valueLabelDisplay="auto" min={8} max={30} />
                     </Stack>    
                 </RadioGroup>
             </FormControl>
             <Stack spacing={8} direction='row'>
                 <div>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={min} onChange={handleOnChangeMin} />} label="minuscule" />
+                        <FormControlLabel control={<Switch checked={maj} onChange={handleOnChangeMaj} />} label="majuscule" />
                     </FormGroup>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={maj} onChange={handleOnChangeMaj} />} label="majuscule" />
+                        <FormControlLabel control={<Switch checked={num} onChange={handleOnChangeNum} />} label="chiffres" />
                     </FormGroup>
                 </div>
                 <Divider orientation="vertical" flexItem />
                 <div>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={num} onChange={handleOnChangeNum} />} label="chiffres" />
+                        <FormControlLabel control={<Switch checked={speciaux} onChange={handleOnChangeSpeciaux} />} label="caractere speciaux" />
                     </FormGroup>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={speciaux} onChange={handleOnChangeSpeciaux} />} label="caractere speciaux" />
-                    </FormGroup> 
+                        <FormControlLabel control={<Switch checked={hardSpeciaux} onChange={handleOnChangeHardSpeciaux} />} label="caractere speciaux" />
+                    </FormGroup>
                 </div>
             </Stack>
         </Stack>

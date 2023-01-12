@@ -5,6 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-image: url(https://previews.agefotostock.com/previewimage/medibigoff/b401262060139aa0c219f7e323af2144/esy-042682536.jpg); */
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-size: cover;
 }
 
 code {

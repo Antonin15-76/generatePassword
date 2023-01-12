@@ -4,6 +4,7 @@ import useDialog from "../hooks/useDialogs"
 import CancelButton from "../components/CancelButton"
 import ValidateButton from "../components/ValidateButton"
 import DialogContent from './DialogContent'
+import { dataType, genereratePassword } from "./function"
 
 const Home = () => {
 
@@ -11,6 +12,11 @@ const Home = () => {
 
     const handleOnSubmit = () => {
 
+    }
+
+    const onSubmit = () => {
+        const test = genereratePassword(20, dataType)
+        console.log(test) 
     }
     return (
         <div style={{ margin: '40px 350px' }}>
@@ -23,7 +29,8 @@ const Home = () => {
                     <div>minuscule: Oui</div>
                     <div>Majuscule: Non</div>
                     <div>chiffres: Oui</div>
-                    <div>Caractères speciaux: Oui - 2</div>
+                    <div>Caractères speciaux (niveau 1): Oui - 2</div>
+                    <div>Caractères speciaux (niveau 2): Oui - 2</div>
                 </Stack>
                 <Stack style={{ display: 'flex', alignItems: 'right' }}>
                     <Button onClick={dialog.handleOnClick}>Options</Button>
@@ -39,17 +46,6 @@ const Home = () => {
                             </DialogTitle>
                              <Stack spacing={2} align='center' style={{ padding: '15px' }}>
                                 <DialogContent />
-                                {/* <Form 
-                                id={'add-form'} 
-                                country={country} 
-                                setCountry={setCountry} 
-                                violationType={violationType} 
-                                setViolation={setViolation}
-                                montant={montant}
-                                setMontant={setMontant}
-                                state={state}
-                                setState={setState} */}
-                                {/* /> */}
                                 {/* <ValidateButton form={`filtre-option-form`} title='gk' />
                                 <CircularProgress sizePreset='md' /> */}
                             </Stack> 
@@ -89,7 +85,7 @@ const Home = () => {
                 </IconButton> 
             </Stack>  
             <Stack style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button>Generate password</Button>
+                <Button onClick={onSubmit}>Generate password</Button>
             </Stack>
         </div>
     )

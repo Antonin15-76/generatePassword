@@ -1,0 +1,19 @@
+{
+  "name": "proweb-password",
+  "version": "1.0.0",
+  "description": "Génerateur de mot de passe. Génère trois mot de passe pour choisir celui qui convient le mieux",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antonin15-76/generatePassword.git"
+  },
+  "author": "Antonin Girard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Antonin15-76/generatePassword/issues"
+  },
+  "homepage": "https://github.com/Antonin15-76/generatePassword#readme"
+}
