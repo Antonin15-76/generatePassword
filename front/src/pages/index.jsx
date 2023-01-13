@@ -1,91 +1,100 @@
-import { Button, Dialog, DialogActions, DialogTitle, IconButton, Stack, TextField } from "@mui/material"
+import { Button, IconButton, Stack, TextField, Typography } from "@mui/material"
 import { Copyright, Eye } from "mdi-material-ui"
 import useDialog from "../hooks/useDialogs"
-import CancelButton from "../components/CancelButton"
-import ValidateButton from "../components/ValidateButton"
-import DialogContent from './DialogContent'
-import { dataType, genereratePassword } from "./function"
+import { genereratePassword } from "./function"
+import DialogComponent from "./DialogComponent"
+import { useState } from "react"
+import { useMemo } from "react"
 
 const Home = () => {
 
     const dialog = useDialog(false)
+    const [values, setValues] = useState()
 
-    const handleOnSubmit = () => {
+    const dataType = useMemo(() => [
+            {
+                id: "charSpe",
+                bool: values?.speciaux.checked,
+                number: values?.speciaux.nb
+            },
+            {
+                id: "charSpeHard",
+                bool: values?.hardSpeciaux.checked,
+                number: values?.hardSpeciaux.nb
+            },
+            {
+                id: "min",
+                bool: values?.min,
+                number: null
+            },
+            {
+                id: "maj",
+                bool: values?.maj,
+                number: null
+            },
+            {
+                id: "number",
+                bool: values?.num,
+                number: null
+            }
+            
+        ], [values])
 
-    }
+    const threePassword = useMemo(() => genereratePassword(values?.nbOfChar?.nb, dataType), [dataType, values?.nbOfChar?.nb])
 
-    const onSubmit = () => {
-        const test = genereratePassword(20, dataType)
-        console.log(test) 
-    }
     return (
-        <div style={{ margin: '40px 350px' }}>
+        <div style={{ margin: '0px 350px' }}>
             <Stack>
-                <h1 style={{ textAlign: 'center', marginBottom: '15%', fontSize: "4em" }}>Title du generator</h1>
+                <h1 style={{ textAlign: 'center', marginBottom: '15%', fontSize: "4em" }}>ProWeb Password</h1>
             </Stack>
-            <Stack direction="row" spacing={18} style={{ marginBottom: '3%' }}>
-                <Stack direction='row' spacing={12} >
-                    <div>longueur: 10</div>
-                    <div>minuscule: Oui</div>
-                    <div>Majuscule: Non</div>
-                    <div>chiffres: Oui</div>
-                    <div>Caractères speciaux (niveau 1): Oui - 2</div>
-                    <div>Caractères speciaux (niveau 2): Oui - 2</div>
+            <Stack direction="row" spacing={6} style={{ marginBottom: '3%' }}>
+                <Stack direction="row" spacing={1}>
+                    <div>longueur: </div><Typography color='blue'>{values?.nbOfChar?.nb || 0}</Typography>
                 </Stack>
-                <Stack style={{ display: 'flex', alignItems: 'right' }}>
-                    <Button onClick={dialog.handleOnClick}>Options</Button>
-                    <Dialog
-                            id='filtre'
-                            type='Filter'
-                            title='Options'
-                            open={dialog.open}
-                            onClose={dialog.handleOnClose}
+                <Stack direction="row" spacing={1}>
+                    <div>minuscule: </div><Typography color={values?.min ? '#32CD32' : 'red'}>{values?.min ? 'oui' : 'non'}</Typography>
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                    <div>Majuscule: </div><Typography color={values?.maj ? '#32CD32' : 'red'}>{values?.maj ? 'oui' : 'non'}</Typography>
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                    <div>chiffres: </div><Typography color={values?.num ? '#32CD32' : 'red'}>{values?.num ? 'oui' : 'non'}</Typography>
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                    <div>Caractères speciaux (niveau 1): </div><Typography color={values?.speciaux?.checked ? '#32CD32' : 'red'}>{values?.speciaux?.checked ? 'oui' : 'non'} - {values?.speciaux?.nb || 0}</Typography>
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                    <div>Caractères speciaux (niveau 2): </div><Typography color={values?.hardSpeciaux?.checked ? '#32CD32' : 'red'}>{values?.hardSpeciaux?.checked ? 'oui' : 'non'} - {values?.hardSpeciaux?.nb || 0}</Typography>
+                </Stack>
+            </Stack>
+            {threePassword?.map(x => {
+                return (
+                    <Stack key={x.id} direction="row" spacing={2} style={{ marginBottom: '10%' }}>
+                        <TextField
+                        id='password'
+                        name='password'
+                        label='password'
+                        value={x.password}
+                        disabled
+                        fullWidth
+                        /> 
+                        <IconButton
+                        onClick={() => {navigator.clipboard.writeText(x.password)}}
+                        title='Copy'
                         >
-                            <DialogTitle id='draggable-dialog-title'>
-                            Paramètres
-                            </DialogTitle>
-                             <Stack spacing={2} align='center' style={{ padding: '15px' }}>
-                                <DialogContent />
-                                {/* <ValidateButton form={`filtre-option-form`} title='gk' />
-                                <CircularProgress sizePreset='md' /> */}
-                            </Stack> 
-                             <DialogActions>
-                                 <Stack direction='row' justify='flex-end' spacing={2}>
-                                    <CancelButton onClick={dialog.onClose } title='Annuler' />
-                                    <ValidateButton id={`add-form`} onClick={handleOnSubmit} title='Valider' />
-                                </Stack>
-                            </DialogActions>
-                        </Dialog>   
-                </Stack>
-            </Stack>
-            <Stack direction="row" spacing={2} style={{ marginBottom: '10%' }}>
-                <TextField
-                id='password'
-                name='password'
-                // type={isPassword ? 'password' : 'text'}
-                label='password'
-                // value={token}
-                disabled
-                fullWidth
-                // 
-                />
-                <IconButton
-                // onClick={ () => {
-                //     setIsPassword(!isPassword)
-                // }}
-                title='Show Password'
-                >
-                    <Eye fontSize='inherit' />                    
-                </IconButton> 
-                <IconButton
-                // onClick={() => {navigator.clipboard.writeText(token)}}
-                title='Copy'
-                >
-                    <Copyright fontSize='inherit' />                      
-                </IconButton> 
-            </Stack>  
+                            <Copyright fontSize='inherit' />                      
+                        </IconButton> 
+                    </Stack>
+                )
+            })}
             <Stack style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Button onClick={onSubmit}>Generate password</Button>
+                <Button onClick={dialog.handleOnClick}>Generate password</Button>
+                <DialogComponent
+                        title='Pamareters'
+                        open={dialog.open}
+                        onClose={dialog.onClose}
+                        setValues={setValues}
+                    />
             </Stack>
         </div>
     )

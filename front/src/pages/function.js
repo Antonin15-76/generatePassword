@@ -1,48 +1,19 @@
-export const dataType = [
-    {
-        id: "min",
-        bool: true,
-        number: null
-    },
-    {
-        id: "maj",
-        bool: true,
-        number: null
-    },
-    {
-        id: "number",
-        bool: true,
-        number: null
-    },
-    {
-        id: "charSpe",
-        bool: true,
-        number: 2
-    },
-    {
-        id: "charSpeHard",
-        bool: false,
-        number: 0
-    }
-]
-
-// const index = () => {
-
-// const test = genereratePassword(10, dataType)
-// console.log(test) 
-// }
-
-export const genereratePassword = (nbChar = 10, data = []) => {
-    
-
+export const genereratePassword = (nbChar = 8, data = []) => {
     const array = []
-    for (let i = 0; i < 3; i++) {
-        let difNbChar = nbChar
+    let difNbChar = nbChar
         let initPassWord = ''
+    for (let i = 0; i < 3; i++) {
+        const nbTrue = data.filter(x => x.bool && x.id !== 'charSpe' && x.id !== 'charSpeHard')
+        const nbCharSpeTrue = data.filter(x => x.bool && (x.id === 'charSpe' || x.id === 'charSpeHard'))
+        let initialValue = 0
+        const sum = nbCharSpeTrue?.reduce((acc, current) =>
+             acc + current.number, initialValue  
+        )
+        const nbWithoutSpe = difNbChar - sum
+        const difOther = Math.floor(nbWithoutSpe / nbTrue.length)
         for (let p = 0; p < data.length; p++) {
             if (data[p].bool) {
-                const charData = filterTypeCharacter(data[p].id, difNbChar, data[p].number)
-
+                const charData = filterTypeCharacter(data[p].id, difNbChar, data[p].number, difOther)
                 if (charData) {
                     difNbChar = charData.difNbChar
                     initPassWord = initPassWord + charData.value
@@ -50,49 +21,66 @@ export const genereratePassword = (nbChar = 10, data = []) => {
             }
         }
 
-        array.push({ id: i, password: randomChar(nbChar, initPassWord) })
-    
+        array.push({ id: i, password: mixChar(initPassWord) })
     }
-    
     return array
-
 }
 
-
-const filterTypeCharacter = (type, difNbChar, numberOfType) => {
+const filterTypeCharacter = (type, difNbChar, numberOfType, nbTrue) => {
     const charMaj = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     const charMin = "abcdefghijklmnopqrstuvwxyz"
     const number = '0123456789'
     const charSpe = "@#$%*!?"
     const charSpeHard = "{}[]()/'\"`~,;:.<>-_" 
-
     switch (type) {
         case 'maj':
-            return getCharSpe(charMaj, difNbChar, numberOfType)
+            return getCharSpe("maj", charMaj, difNbChar, numberOfType, nbTrue)
         case 'min':
-            return getCharSpe(charMin, difNbChar, numberOfType)
+            return getCharSpe("min", charMin, difNbChar, numberOfType, nbTrue)
         case 'number':
-            return getCharSpe(number, difNbChar, numberOfType)
+            return getCharSpe("number", number, difNbChar, numberOfType, nbTrue)
         case 'charSpe':
-            return getCharSpe(charSpe, difNbChar, numberOfType)
+            return getCharSpe("charSpe", charSpe, difNbChar, numberOfType, nbTrue)
         case 'charSpeHard':
-            return getCharSpe(charSpeHard, difNbChar, numberOfType)
+            return getCharSpe("charSpeHard", charSpeHard, difNbChar, numberOfType, nbTrue)
         default:
-            return getCharSpe(charMin, difNbChar, numberOfType)
+            return getCharSpe(charMin, difNbChar, numberOfType, nbTrue)
     }
 }
 
-const getCharSpe = (data, difNbChar, nbCharType) => {
-    if (nbCharType === null) nbCharType = Math.floor(difNbChar / 4)
-    difNbChar = difNbChar - nbCharType
+const getCharSpe = (type, data, difNbChar, nbCharType, nbTrue) => {
+    let newDifNbChar = ''
 
-    const result = randomChar(nbCharType, data)
+    if (type === "charSpe" || type === "charSpeHard") {
+        newDifNbChar = difNbChar - nbCharType
 
-    const res = {
-        difNbChar: nbCharType,
-        value: result
+        const result = randomChar(nbCharType, data)
+        const res = {
+            difNbChar: newDifNbChar,
+            value: result
+        }
+        return res
+    } else {
+        newDifNbChar = difNbChar - nbTrue
+        if (newDifNbChar < nbTrue) {
+            const result = randomChar(nbTrue + newDifNbChar, data)
+
+            const res = {
+                difNbChar: newDifNbChar,
+                value: result
+            }
+            return res
+        } else {
+           const result = randomChar(nbTrue, data) 
+
+           const res = {
+            difNbChar: newDifNbChar,
+            value: result
+            }
+            return res
+        }
     }
-    return res
+   
 }
 
 const randomChar = (length, characters) => {
@@ -102,4 +90,10 @@ const randomChar = (length, characters) => {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result
+}
+
+const mixChar = (char) => {
+    const array = char.split("")
+    const shuffle = array.sort(() => Math.random() - 0.5)
+    return shuffle.join('')
 }
