@@ -83,8 +83,6 @@ const DialogContent = (props) => {
                 >
                     <Stack direction="row" spacing={6}>
                         {nbOfCharData.map(x => {
-                            console.log(x)
-                            console.log(nbOfChar)
                             return (
                                 <FormControlLabel key={x.value} onChange={handleOnChangeSetNbOfChar} checked={x.value == nbOfChar.value} value={x.value} control={<Radio />} label={x.value} />
                             )  

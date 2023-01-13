@@ -43,7 +43,6 @@ const Home = () => {
         ], [values])
 
     const threePassword = useMemo(() => genereratePassword(values?.nbOfChar?.nb, dataType), [dataType, values?.nbOfChar?.nb])
-    console.log(width)
     return (
         <div style={{ margin: '0px 15%' }}>
             <Stack>
