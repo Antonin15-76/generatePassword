@@ -113,13 +113,13 @@ const DialogContent = (props) => {
                 <Divider orientation="vertical" flexItem />
                 <div>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={speciaux.checked} onChange={handleOnChangeSpeciaux} />} label="caractere speciaux" />
+                        <FormControlLabel control={<Switch checked={speciaux.checked} onChange={handleOnChangeSpeciaux} />} label="caractere speciaux (@#$%*!?)" />
                         {speciaux.checked && (
                             <Slider onChange={handleOnChangeNbOfSpeciaux} marks={marksSpeciaux} defaultValue={speciaux.nb} step={1} aria-label="Default" valueLabelDisplay="auto" min={1} max={nbOfChar.nb - hardSpeciaux.nb} />
                         )}
                     </FormGroup>
                     <FormGroup>
-                        <FormControlLabel control={<Switch checked={hardSpeciaux.checked} onChange={handleOnChangeHardSpeciaux} />} label="caractere speciaux" />
+                        <FormControlLabel control={<Switch checked={hardSpeciaux.checked} onChange={handleOnChangeHardSpeciaux} />} label={"caractere speciaux ({}[]()/'\"`~,;:.<>-_)"} />
                         {hardSpeciaux.checked && (
                             <Slider onChange={handleOnChangeNbOfHardSpeciaux} defaultValue={hardSpeciaux.nb} marks={marksHardSpeciaux} step={1} aria-label="Default" valueLabelDisplay="auto" min={1} max={nbOfChar.nb - speciaux.nb} />
                         )}

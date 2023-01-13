@@ -2,7 +2,7 @@ export const genereratePassword = (nbChar = 8, data = []) => {
     const array = []
     let difNbChar = nbChar
         let initPassWord = ''
-    for (let i = 0; i < 3; i++) {
+    // for (let i = 0; i < 3; i++) {
         const nbTrue = data.filter(x => x.bool && x.id !== 'charSpe' && x.id !== 'charSpeHard')
         const nbCharSpeTrue = data.filter(x => x.bool && (x.id === 'charSpe' || x.id === 'charSpeHard'))
         let initialValue = 0
@@ -21,8 +21,8 @@ export const genereratePassword = (nbChar = 8, data = []) => {
             }
         }
 
-        array.push({ id: i, password: mixChar(initPassWord) })
-    }
+        array.push({ id: 1, password: mixChar(initPassWord) })
+    // }
     return array
 }
 

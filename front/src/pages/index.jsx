@@ -10,7 +10,9 @@ const Home = () => {
 
     const dialog = useDialog(false)
     const [values, setValues] = useState()
-
+    const height =  window.innerHeight
+    const width =  window.innerWidth
+    
     const dataType = useMemo(() => [
             {
                 id: "charSpe",
@@ -41,35 +43,89 @@ const Home = () => {
         ], [values])
 
     const threePassword = useMemo(() => genereratePassword(values?.nbOfChar?.nb, dataType), [dataType, values?.nbOfChar?.nb])
-
+    console.log(width)
     return (
-        <div style={{ margin: '0px 350px' }}>
+        <div style={{ margin: '0px 15%' }}>
             <Stack>
                 <h1 style={{ textAlign: 'center', marginBottom: '15%', fontSize: "4em" }}>ProWeb Password</h1>
             </Stack>
-            <Stack direction="row" spacing={6} style={{ marginBottom: '3%' }}>
-                <Stack direction="row" spacing={1}>
-                    <div>longueur: </div><Typography color='blue'>{values?.nbOfChar?.nb || 0}</Typography>
+            {width > 1100 && (
+                <Stack direction="row" spacing={6} style={{ marginBottom: '3%' }}>
+                    <Stack direction="row" spacing={1}>
+                        <div>longueur: </div><Typography color='blue'>{values?.nbOfChar?.nb || 0}</Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                        <div>minuscule: </div><Typography color={values?.min ? '#32CD32' : 'red'}>{values?.min ? 'oui' : 'non'}</Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                        <div>Majuscule: </div><Typography color={values?.maj ? '#32CD32' : 'red'}>{values?.maj ? 'oui' : 'non'}</Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                        <div>chiffres: </div><Typography color={values?.num ? '#32CD32' : 'red'}>{values?.num ? 'oui' : 'non'}</Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                        <div>Caractères speciaux (niveau 1): </div><Typography color={values?.speciaux?.checked ? '#32CD32' : 'red'}>{values?.speciaux?.checked ? 'oui' : 'non'} - {values?.speciaux?.nb || 0}</Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1}>
+                        <div>Caractères speciaux (niveau 2): </div><Typography color={values?.hardSpeciaux?.checked ? '#32CD32' : 'red'}>{values?.hardSpeciaux?.checked ? 'oui' : 'non'} - {values?.hardSpeciaux?.nb || 0}</Typography>
+                    </Stack>
                 </Stack>
-                <Stack direction="row" spacing={1}>
-                    <div>minuscule: </div><Typography color={values?.min ? '#32CD32' : 'red'}>{values?.min ? 'oui' : 'non'}</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1}>
-                    <div>Majuscule: </div><Typography color={values?.maj ? '#32CD32' : 'red'}>{values?.maj ? 'oui' : 'non'}</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1}>
-                    <div>chiffres: </div><Typography color={values?.num ? '#32CD32' : 'red'}>{values?.num ? 'oui' : 'non'}</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1}>
-                    <div>Caractères speciaux (niveau 1): </div><Typography color={values?.speciaux?.checked ? '#32CD32' : 'red'}>{values?.speciaux?.checked ? 'oui' : 'non'} - {values?.speciaux?.nb || 0}</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1}>
-                    <div>Caractères speciaux (niveau 2): </div><Typography color={values?.hardSpeciaux?.checked ? '#32CD32' : 'red'}>{values?.hardSpeciaux?.checked ? 'oui' : 'non'} - {values?.hardSpeciaux?.nb || 0}</Typography>
-                </Stack>
-            </Stack>
+            )}
+            {(600 < width && width < 1100) && (
+                 <>
+                    <Stack direction="row" spacing={4} style={{ marginBottom: '3%' }}>
+                        <Stack direction="row" spacing={1}>
+                            <div>longueur: </div><Typography color='blue'>{values?.nbOfChar?.nb || 0}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>minuscule: </div><Typography color={values?.min ? '#32CD32' : 'red'}>{values?.min ? 'oui' : 'non'}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>Majuscule: </div><Typography color={values?.maj ? '#32CD32' : 'red'}>{values?.maj ? 'oui' : 'non'}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>chiffres: </div><Typography color={values?.num ? '#32CD32' : 'red'}>{values?.num ? 'oui' : 'non'}</Typography>
+                        </Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={4} style={{ marginBottom: '3%' }}>
+                        <Stack direction="row" spacing={1}>
+                            <div>Caractères speciaux (niveau 1): </div><Typography color={values?.speciaux?.checked ? '#32CD32' : 'red'}>{values?.speciaux?.checked ? 'oui' : 'non'} - {values?.speciaux?.nb || 0}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>Caractères speciaux (niveau 2): </div><Typography color={values?.hardSpeciaux?.checked ? '#32CD32' : 'red'}>{values?.hardSpeciaux?.checked ? 'oui' : 'non'} - {values?.hardSpeciaux?.nb || 0}</Typography>
+                        </Stack>
+                    </Stack>
+                </>
+            )}
+            {width < 600 && (
+                <>
+                    <Stack direction="row" spacing={2} style={{ marginBottom: '3%' }}>
+                        <Stack direction="row" spacing={1}>
+                            <div>longueur: </div><Typography color='blue'>{values?.nbOfChar?.nb || 0}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>minuscule: </div><Typography color={values?.min ? '#32CD32' : 'red'}>{values?.min ? 'oui' : 'non'}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>Majuscule: </div><Typography color={values?.maj ? '#32CD32' : 'red'}>{values?.maj ? 'oui' : 'non'}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>chiffres: </div><Typography color={values?.num ? '#32CD32' : 'red'}>{values?.num ? 'oui' : 'non'}</Typography>
+                        </Stack>
+                    </Stack>
+                    <Stack direction="row" spacing={2} style={{ marginBottom: '3%' }}>
+                        <Stack direction="row" spacing={1}>
+                            <div>Caractères speciaux (niveau 1): </div><Typography color={values?.speciaux?.checked ? '#32CD32' : 'red'}>{values?.speciaux?.checked ? 'oui' : 'non'} - {values?.speciaux?.nb || 0}</Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1}>
+                            <div>Caractères speciaux (niveau 2): </div><Typography color={values?.hardSpeciaux?.checked ? '#32CD32' : 'red'}>{values?.hardSpeciaux?.checked ? 'oui' : 'non'} - {values?.hardSpeciaux?.nb || 0}</Typography>
+                        </Stack>
+                    </Stack>
+                </>
+            )} 
             {threePassword?.map(x => {
                 return (
-                    <Stack key={x.id} direction="row" spacing={2} style={{ marginBottom: '10%' }}>
+                    <Stack key={x.id} direction="row" spacing={2} style={{ marginBottom: '5%' }}>
                         <TextField
                         id='password'
                         name='password'
